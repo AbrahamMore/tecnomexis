@@ -1,21 +1,20 @@
 // src/lib/firebase.js
-import { initializeApp, getApps } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBypEAEP6hcKCe8eUVW34akVXoCOJEM5rk",
-  authDomain: "tecnomexis-5e13e.firebaseapp.com",
-  projectId: "tecnomexis-5e13e",
-  storageBucket: "tecnomexis-5e13e.firebasestorage.app",
-  messagingSenderId: "62822071498",
-  appId: "1:62822071498:web:bf7bbe0d290896a48b0833"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  // Aquí estaba el error, ahora está corregido:
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-// Si ya existe una instancia de la app, úsala; si no, inicialízala.
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+// Evita inicializar múltiples veces en desarrollo
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-// Exportamos las herramientas para usarlas en otros archivos
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export default app;
