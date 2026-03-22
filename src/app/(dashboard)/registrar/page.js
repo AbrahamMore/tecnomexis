@@ -26,7 +26,7 @@ export default function RegistrarEquipo() {
     try {
       await addDoc(collection(db, "equipos"), {
         ...formData,
-        restante: restante, // Guardamos el restante calculado
+        restante: restante, // Guardamos el restante calculadoa
         pagadoCompletamente: restante <= 0, // Bandera de ayuda
         fechaEntrada: serverTimestamp()
       });
